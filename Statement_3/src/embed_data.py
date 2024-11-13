@@ -19,6 +19,7 @@ from langchain_community.document_loaders import PyPDFLoader
 # from langchain_huggingface import HuggingFacePipeline
 # from langchain_huggingface import ChatHuggingFace
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
+from pathlib import Path 
 
 from langchain.chains.retrieval import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
@@ -109,7 +110,24 @@ def main():
     rag_chain = create_retrieval_chain(retriever_from_llm, question_answer_chain)
 
     response = rag_chain.invoke({"input": "what are the differences between the Swiss and UK acts"})
-    print(response["answer"])
+    #print(response["answer"])
+    #print(response["context"])
+    source_dict = {}
+    for doc in response["context"]:
+        full_path = doc.metadata["source"]
+        stem_path = Path(full_path).stem
+        page = doc.metadata["page"]
+        if stem_path not in source_dict:
+            source_dict[stem_path] = set()
+        source_dict[stem_path].add(page)
+    generated_output = str(response["answer"])
+    generated_output += f"\n\nSources in Document and Page Numbers format:"
+    for source, page_numbers in source_dict.items():
+        #page_numbers = str(list)
+        generated_output += f"\n{source}: {page_numbers} "
+    
+    print(generated_output)
+        
     pass
 
 def perform_ocr(full_file_path,docs,loaders):
