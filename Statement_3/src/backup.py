@@ -3,36 +3,26 @@ Perform inference/prediction on the test dataset and to prepare the submission f
 """
 
 #Import statements
-import pandas as pd #data processing, CSV file I/O (e.g. pd.read_csv)
 import os #os file paths
-#from pypdf import PdfReader #PDF Reading
-import torch
+from pathlib import Path #Manipulate file path names
 
 #Import statements Langchain
-from langchain.storage import InMemoryStore
-from langchain.vectorstores import chroma
-from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain.retrievers import ParentDocumentRetriever
-from langchain_huggingface.embeddings import HuggingFaceEmbeddings
-from langchain_chroma import Chroma
-from langchain_community.document_loaders import PyPDFLoader
-# from langchain_huggingface import HuggingFacePipeline
-# from langchain_huggingface import ChatHuggingFace
-from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
-from pathlib import Path 
-
-from langchain.chains.retrieval import create_retrieval_chain
-from langchain.chains.combine_documents import create_stuff_documents_chain
-from langchain_core.prompts import ChatPromptTemplate
-from langchain_ollama.llms import OllamaLLM
-from langchain.retrievers.multi_query import MultiQueryRetriever
+from langchain.storage import InMemoryStore #Storage
+from langchain_text_splitters import RecursiveCharacterTextSplitter #Chunking
+from langchain.retrievers import ParentDocumentRetriever #RAG
+from langchain_huggingface.embeddings import HuggingFaceEmbeddings #Embeddings
+from langchain_chroma import Chroma #Vector Database
+from langchain_community.document_loaders import PyPDFLoader #OCR for PDF
+from langchain.chains.retrieval import create_retrieval_chain #RAG Chain
+from langchain.chains.combine_documents import create_stuff_documents_chain #Retrieval Part of Chain
+from langchain_core.prompts import ChatPromptTemplate #Chat Template for QA
+from langchain_ollama.llms import OllamaLLM #LLM
+from langchain.retrievers.multi_query import MultiQueryRetriever #RAG
 
 #Global Constants
-DATA_PATH = r"..\..\masds002" #Path to raw data
+DATA_PATH = r"..\..\masds002" #Path to raw data/documents
 
 def main():
-    #data = os.path.join(DATA_PATH,"DS2-assessment-Simulated-Employee-Feedback.xslx")
-    #print(pd.read_csv(data).head())
     dir_files = os.listdir(DATA_PATH)
     print(dir_files)
 
@@ -145,43 +135,3 @@ if __name__ == "__main__":
     
 
 
-
-
- #print("This is the answer document",sub_docs)
-
-
-    # model_id = "microsoft/Phi-3-mini-4k-instruct"
-    # tokenizer = AutoTokenizer.from_pretrained(model_id)
-
-    # model = AutoModelForCausalLM.from_pretrained(
-    #     model_id
-    # )
-    # device = 0 if torch.cuda.is_available() else -1
-    # print(device,"this is the device")
-    # pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, max_new_tokens=512, top_k=50, temperature=0.1,device=device)
-    # llm = HuggingFacePipeline(pipeline=pipe)
-    # # print(llm.invoke("Hugging Face is"))
-
-    # system_prompt = (
-    # "You are an assistant for question-answering tasks. "
-    # "Use only the following pieces of retrieved context to answer "
-    # "the question. If you don't know the answer, say that you "
-    # "don't know. Use three sentences maximum and keep the "
-    # "answer concise."
-    # "\n\n"
-    # "{context}"
-    # )
-
-    # prompt = ChatPromptTemplate.from_messages(
-    #     [
-    #         ("system", system_prompt),
-    #         ("human", "{input}"),
-    #     ]
-    # )
-
-
-    # question_answer_chain = create_stuff_documents_chain(llm, prompt)
-    # rag_chain = create_retrieval_chain(retriever, question_answer_chain)
-
-    # response = rag_chain.invoke({"input": "What is the UK Act"})
-    # print(response["answer"])
