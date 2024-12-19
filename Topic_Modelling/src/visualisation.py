@@ -51,3 +51,4 @@ def plot_topics_dept(topics_per_class, topic_model, file_name):
     """    
     sub_category_fig = topic_model.visualize_topics_per_class(topics_per_class, top_n_topics=10)
     sub_category_fig.write_html(os.path.join(SAVE_VISUALISATION_PATH,file_name))
+

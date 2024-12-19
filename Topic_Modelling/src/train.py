@@ -24,7 +24,7 @@ import visualisation #visualisation module
 import custom_prompts #custom prompts module
 
 #Global Constants
-DATA_PATH = r"..\..\masds002\DS2-assessment-Simulated-Employee-Feedback.xlsx" #Path to raw data
+DATA_PATH = r"..\..\data\DS2-Employee-Feedback.xlsx" #Path to raw data
 SAVE_VISUALISATION_PATH = r"..\visualisations" #Path to visualisation folder
 TOPIC_RESULTS_PATH = r"..\results" #Path to results folder
 

@@ -20,7 +20,7 @@ from langchain.prompts import PromptTemplate #Customising Prompt Templating
 import custom_prompts #prompt modules
 
 #Global Constants
-DATA_PATH = r"..\..\masds002" #Path to raw data/documents
+DATA_PATH = r"..\..\data" #Path to raw data/documents
 EMBEDDING_MODEL = "sentence-transformers/all-mpnet-base-v2" #Embedding model string
 LLM_MODEL = "llama3.2" #LLM model
 
